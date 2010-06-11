@@ -10,21 +10,24 @@ title: tests
 	</h1>
 
 	<div class="content">{{ post.content }}</div>
-	<p class="articlelink"><a href="{{ post.url }}">Link to post</a></p>
+	<p class="articlelink"><a href="{{ post.url }}#disqus_thread">Link to post</a></p>
 	<hr>
-
-<!-- Disqus comments -->
-<div id="disqus_thread"></div>
-<!--<script type="text/javascript">var disqus_developer = true;</script>-->
-<script type="text/javascript" src="http://disqus.com/forums/cleanblog/embed.js"></script>
-<noscript>
-	<a href="http://disqus.com/forums/cleanblog/?url=ref">View the discussion thread.</a>
-</noscript>
-<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
-
 
 	{% endfor %} 
 
 
 </div>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  /**
+    * var disqus_identifier; [Optional but recommended: Define a unique identifier (e.g. post id or slug) for this thread] 
+    */
+  (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = 'http://cleanblog.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=cleanblog">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
 
