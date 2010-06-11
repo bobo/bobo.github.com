@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+	</head>
+	<body>
+		<div id="main">
+			<div id="content">
+				{{ content }}
+			</div><!--
+			--><aside>
+				<h1>most recent</h1>
+				{% for post in site.posts | limit:10 %}
+					<a href="{{ post.url }}"><div class="menulink">
+						<div class="title">{{ post.title }}</div>
+						<time>{{ post.date | date:"%d.%m.%Y" }}</time>
+					</div></a>
+				{% endfor %}
+
+			</aside>
+		</div>
+
+	</body>
+</html>
