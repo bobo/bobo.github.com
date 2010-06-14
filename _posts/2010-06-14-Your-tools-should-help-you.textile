@@ -1,0 +1,15 @@
+---
+layout: post
+title: Your tools should help you!
+summary: Tools should help you, and make your life easier, not the opposite.
+---
+
+The tools and libraries you use should help you, they can help your hardware and so on. but in the end, they should make your life easier.
+
+Take memcached for example, who does memcached help? Does it help your database server? yes, and thats a good thing! Does it help you? no, not realy, it forces you to make sure you invalidate keys, collect values from multiple sources and clutters your code and so on. Im not saying you shouldnt use memcached, im saying maybe you should use something in between, maybe you should find another library that helps you with using memcached. If you cant find such a library, maybe there is something else that can solve your problem, instead of solving the symptom of the problem. 
+
+Let me explain what i mean, il continue to use memcached as the example. Why is it you use memcached? because your database cant keep up. The symptom of this is that your webpage gets slow. You "solve" this by giving the database less to do. But what your realy doing is solving the symptom, ie adding memcache and asking your database less, speeds upp the webpage again. But your problem is realy still there: you cant get the data up from the database fast enough. You are just giving your users old data. yes, this data can be unchanged. but its still old. 
+A solution to the problem, would be to store the data somewhere else, perhaps some nosql storage if that works. Or perhaps you dont even need to store it in a database, if your in java maybe something like terracotta can solve it. I dont realy care, but solve the problem, not the symptom. And more important, the solution should help you, not make you work harder.
+
+
+This is not meant as a bash against sql databases or memcached, they can be good tools. But they are often missused. My point is, your tools should not force you to work harder, or make your code more error prone. They should help you, and make your life easier, not only your hardwares life. Its not about what tools you use, its how you use them.
