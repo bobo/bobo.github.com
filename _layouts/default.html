@@ -45,8 +45,7 @@
 
       </div>
       
-      <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/prototype/1.6/prototype.js"></script>
-      
+
       <div id="content">
         {{ content }}
       </div>
@@ -70,6 +69,19 @@
 		var pageTracker = _gat._getTracker("UA-16984772-1");
 		pageTracker._trackPageview();
 		} catch(err) {}</script>
-
+ <script type="text/javascript">
+    //<![CDATA[
+    (function() {
+    		var links = document.getElementsByTagName('a');
+    		var query = '?';
+    		for(var i = 0; i < links.length; i++) {
+    			if(links[i].href.indexOf('#disqus_thread') >= 0) {
+    				query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
+    			}
+    		}
+        document.write('<script type="text/javascript" src="http://disqus.com/forums/cleanblog/get_num_replies.js' + query + '"></' + 'script>');
+    	})();
+    //]]>
+    </script>
   </body>
 </html>
