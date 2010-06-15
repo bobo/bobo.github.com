@@ -1,0 +1,21 @@
+---
+layout: post
+title: Code reviews
+summary: Some thoughts about code reviews.
+---
+Code reviews are great. They are also often misunderstood.
+If someone asks you to check his code, this does not mean that he wants you to make it your mission to find any mistake he made, so you can point and laugh at him. He simply wants you to help him improve the code. 
+But why should you help him with HIS CODE! it’s his work, cant he do his work on his own? If you have to check al the code he writes, you can just as well write it yourself and take his paycheck, right? No, ofcource not. 
+First, its not his code, its your code, its your teammates code, and all your future teammates code. YOU are responsible for every single line in that code base, yes everything. I do ofcource not mean you as a person, I mean you as a team. And by that i do not mean that the sum of the code responsibilities of all team-members is the entire codebase, i mean that the team as an entity is responsible for everything. 
+Second, the point of a code review is to improve, not only to improve your teammate, but also to improve you, and the teamwork of you and the one who wrote the code. You are not better than your teammate because he asks you to review his code, honestly, if he asks for reviews repeatedly and you dont. He is the better developer. Good developers know that they can improve, and that they can learn from everyone around them.
+
+What should you look for in a review? You should make sure you understand what everything does without having to think too much, that the flow is simple to follow and that you dont spot anything obviously wrong. And finally ofcource check so its properly tested and that the tests are clean. 
+When you find something you dont like or dont understand, discuss it, ask how the writer thought when he wrote it, and why he wrote it that way. It does not have to be something big; it can be a method name that can be misunderstood or a variable that could have a shorter scope.
+Also, when you find something that you really like, tell him. Its always good with positive feedback.
+
+When should you do a code review? Well, when you feel you need it, if you are done with something. Ask someone or just everyone in general if anyone has time to check your code. Then take a conference room or just roll over with your chair and sit next to each other. I would even say its preferable to just sit at your workspace, that way, the entire team can hear you in the background and if they hear something that interests them, they can join the discussion.
+
+The best code review, is ofcource the continuous review that goes on al the time, also known as Pair programming. Try it!
+
+
+
