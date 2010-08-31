@@ -35,7 +35,7 @@ you will see:
 
 Now, lets start by getting a webpage running!
 
-<script src="http://gist.github.com/55465.js?file=core.clj"></script>
+<script src="http://gist.github.com/555465.js?file=core.clj"></script>
 
 This is the basic setup of a simple clojure app.
 If you run this[INSERT HOW] and point your browser to localhost:8080 you will see "Hello!"
@@ -82,7 +82,7 @@ Note: you also have to add: hiccup.form-helpers to the :use list in the ns decla
 
 Now, evalute the defroutes and the render-form functions and point your browser to http://localhost:8080/form
 
-your core.clj should now look like: <a href="http://gist.github.com/55496">http://gist.github.com/55496</a>
+your core.clj should now look like: <a href="http://gist.github.com/555496">http://gist.github.com/555496</a>
 
 Try do type something in the box and submit the form. You will get a "Not found" error in your browser. 
 This is because al our routes ar "GET" and the form use "POST"
@@ -150,9 +150,7 @@ Time to make that view look like a real tasklist!
 We will do this the easy way, add hiccup.page-helpers to the ever groving list of namespaces in :use.
 then simply wrap our task vector in (unordered-list)
 
-(defn view [session]
-  (html [:h1 "Tasks"
-         (unordered-list (:tasks session))]))
+<script src="http://gist.github.com/558587.js?file=gistfile1.clj"></script>
 
 We now have a list of tasks!
 
