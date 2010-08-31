@@ -4,14 +4,14 @@ title: Getting started with compojure
 summary: A basic guide to creating a simple todo webapp with compojure and clojure
 ---
 
-The goal of this tutorial is a simple ajax tasklist written with compojure and jquery. 
+The goal of this tutorial is a simple tasklist written with clojure and compojure
 I will be using Lein, so if you dont have that. Head over to: http://github.com/technomancy/leiningen and follow the instructions.
 With that installed, lets start with:
 
 lein new SimpleTasks
 
-this will create a new project for us.
-Lets begin with adding some dependencies that we will need. open SimpleTasks/project.clj and add the following dependencies:
+This will create a new project for us.
+Lets begin by adding some dependencies that we will need. Open SimpleTasks/project.clj and add the following dependencies:
 
 (defproject SimpleTasks "1.0.0-SNAPSHOT"
   :description "A Simple clojure tasklist"
@@ -22,43 +22,55 @@ Lets begin with adding some dependencies that we will need. open SimpleTasks/pro
                  [ring/ring "0.2.5"]]
   :dev-dependencies [[swank-clojure "1.2.1"]])
 
-save the file and invoke "lein deps" this will download all the dependencies we need.
-If you dont want to use lein, enclojure in netbeans works great. All you need to do then is to go to clojars.org and find the dependencies listed above and add them to your project.
+Save the file and invoke "lein deps". This will download all the dependencies we need.
+If you dont want to use lein, enclojure in netbeans for example works great. All you need to do then is to go to clojars.org and find the dependencies listed above and add them to your project.
+The 
+ :dev-dependencies [[swank-clojure "1.2.1"]] 
+is to be able to start a swank server and connect emacs to it. If you wont be using that, you can leave it out.
 
 
 Now we can start coding!
 
-open up src/SimpleTasks/core.clj in your favorite editor. I use emacs with clojure mode and slime. But anything works.
+Open up src/SimpleTasks/core.clj in your favorite editor. I use emacs with clojure mode and slime. But anything works.
 
 you will see:
+
 (ns SimpleTasks.core)
+
 
 Now, lets start by getting a webpage running!
 
 <script src="http://gist.github.com/555465.js?file=core.clj"></script>
 
-This is the basic setup of a simple clojure app.
-If you run this[INSERT HOW] and point your browser to localhost:8080 you will see "Hello!"
+This is the basic setup of a simple compojure  webbapp.
+If you run this and point your browser to localhost:8080 you will see "Hello!"
+If you dont know how to run it. the simplest way is to use
+
+"lein repl" wait for the repl to load, and then:
+clojure.core=> (require 'SimpleTasks.core)
+
+
 
 Now what does al this code do?
 
 (defonce server (run-jetty #'myroutes
                            {:join? false
                             :port 8080}))
+
 Starts an instance of jetty at port 8080
-the join? false, makes the repl return instantly instead of blocking aslong as jetty is running.
-#'myroutes is the function that will be called when the server recieves a request.
+join? false, makes the repl return instantly instead of blocking aslong as jetty is running.
+#'myroutes tells compojure what function it should called when the server recieves a request.
 
 (defroutes myroutes
   (GET "/" [] (display)))
 
-here we define our routes, as you can see this is the method called by jetty.
-it simply forwards any call to "/" ie "localhost:8080/" to the function display
+Here we define our routes, as you can see this is the method called by jetty.
+It simply forwards any call to "/" ie "localhost:8080/" to the function display
 
 (defn display []
   (html [:h1 "hello!"]))
 
-finally we end up in display. al it does is render html with "hello!" in a &lt;h1&gt; tag
+Finally we end up in display. Al it does is render html page with "hello!" in a &lt;h1&gt; tag
 
 Now for a great thing about clojure and compojure.
 edit the display funktion so it renders something else. ex:
@@ -69,13 +81,13 @@ To make compojure display this instead, al you need to do is to evalute that fun
 
 Ok, lets start with the tasklist. The first thing we want is a form to add tasks:
 
-we start with adding another function to the routes:
+We start by adding another function to the routes:
 
 (defroutes myroutes
   (GET "/" [] (display))
   (GET "/form" [] (render-form)))
 
-and the render-form function:
+And this is the render-form function:
 <script src="http://gist.github.com/55489.js?file=core.clj"></script>
 
 Note: you also have to add: hiccup.form-helpers to the :use list in the ns declaration
@@ -84,13 +96,14 @@ Now, evalute the defroutes and the render-form functions and point your browser 
 
 your core.clj should now look like: <a href="http://gist.github.com/555496">http://gist.github.com/555496</a>
 
-Try do type something in the box and submit the form. You will get a "Not found" error in your browser. 
+Try to type something in the box and submit the form. You will get a "Not found" error in your browser. 
 This is because al our routes ar "GET" and the form use "POST"
 
-Lets add a POST route:
+So we need to add another route:
 
   (POST "/form" {params :params} (handle-form (params "task")))
 
+<i>Note: if you want a route to take all forms of requests, you can use (ANY "/" (myfunction))</i>
 The {params :params} gives us a map of the parameters from the form. Since we only care about the "task" parameter. we pick that and send it to handle-form.
 
 Lets check so the form works and just print the task:
@@ -98,7 +111,7 @@ Lets check so the form works and just print the task:
 (defn handle-form [task]
   (html [:h2 task]))
 
-load http://localhost:8080/form and enter something and submit. you should see the task you just entered.
+Load http://localhost:8080/form and enter something and submit. you should see the task you just entered.
 
 In a normal tasklist, you would probably store the tasks in a database or in textfiles. To make it simple, and to learn more of compojure/ring/hiccup. we will use the session.
 
@@ -120,7 +133,8 @@ We also want a way to see what is in the session, this is pretty easy. we start 
 
 A simple GET route that in the same way we saw with the parameters from the form, take the session and forward it to a function.
 
-and the function that is called:
+The function that is called:
+
 (defn view [session]
   (html [:h1 (str "tasks: " (:tasks session))]))
 
@@ -144,17 +158,19 @@ What this does, except for print the task from the form, and the tasks from the 
 If it is. the task is added to the current vector of tasks. If it is not a vector, it is most likely empty, and we create a new vector with our task.
 
 We dont need to change anything to our view route. 
-Try it ouy! we can now add multiple tasks to our simple tasklist!
+Try it out! We can now add multiple tasks to our simple tasklist!
 
-Time to make that view look like a real tasklist!
+Time to make that view look like a real tasklist.
 We will do this the easy way, add hiccup.page-helpers to the ever groving list of namespaces in :use.
 then simply wrap our task vector in (unordered-list)
 
 <script src="http://gist.github.com/558587.js?file=gistfile1.clj"></script>
 
-We now have a list of tasks!
+We now have a list of tasks. This is how mine looks after adding three tasks:
+
+<h1>Tasks<ul><li>task1</li><li>task2</li><li>task3</li></ul></h1> 
 
 This is enough for the first part.
-We still have some work todo. for example, we cant set tasks as completed or delete tasks. Later, we will also use jquery to make it smother too use.
+We still have some work todo. We cant set tasks as completed or delete tasks. Later, we will also use jquery to make it smother too use. 
 
 
