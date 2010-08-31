@@ -32,7 +32,6 @@ you will see:
 
 Now, lets start by getting a webpage running!
 
-http://gist.github.com/555465
 <script src="http://gist.github.com/555465.js?file=core.clj"></script>
 
 This is the basic setup of a simple clojure app.
@@ -74,7 +73,6 @@ we start with adding another function to the routes:
   (GET "/form" [] (render-form)))
 
 and the render-form function:
-http://gist.github.com/555489
 <script src="http://gist.github.com/555489.js?file=core.clj"></script>
 
 Note: you also have to add: hiccup.form-helpers to the :use list in the ns declaration
@@ -137,8 +135,7 @@ We will use a simple vector as our storage format. To be able to do this, we nee
 we now have the session and the task parameter from the form.
 we change the form handler:
 
-http://gist.github.com/557897
-<script src="http://gist.github.com/5557897.js?file=core.clj"></script>
+<script src="http://gist.github.com/557897.js?file=core.clj"></script>
 
 What this does, except for print the task from the form, and the tasks from the session. Is that it checks if the value of the session is a vector.
 If it is. the task is added to the current vector of tasks. If it is not a vector, it is most likely empty, and we create a new vector with our task.
