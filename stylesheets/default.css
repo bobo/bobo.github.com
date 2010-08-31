@@ -42,7 +42,7 @@ h1 a, h1 a:link, h1 a:visited {
 }
 
 #sidebar {
-  width: 160px;
+  width: 170px;
   padding: 10px 20px 20px 20px;
   border-left: 5px solid #eee;
   float: right;
@@ -73,6 +73,7 @@ h1 a, h1 a:link, h1 a:visited {
 #content {
   width: 600px;
   padding: 0 20px 20px 20px;
+  border: 5px solid #eee;
 }
 #content ul {
   list-style-type: none;
