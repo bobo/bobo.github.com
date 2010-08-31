@@ -159,7 +159,12 @@ then simply wrap our task vector in (unordered-list)
 
 We now have a list of tasks. This is how mine looks after adding three tasks:
 
-<h1>Tasks<ul><li>task1</li><li>task2</li><li>task3</li></ul></h1> 
+<h1>Tasks</h1>
+<ul>
+	<li>task1</li>
+	<li>task2</li>
+	<li>task3</li>
+</ul>
 
 This is enough for the first part.
 We still have some work todo. We cant set tasks as completed or delete tasks. Later, we will also use jquery to make it smother too use. 
