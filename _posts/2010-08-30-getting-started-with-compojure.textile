@@ -35,7 +35,7 @@ you will see:
 
 Now, lets start by getting a webpage running!
 
-<script src="http://gist.github.com/555465.js?file=core.clj"></script>
+<script src="http://gist.github.com/55465.js?file=core.clj"></script>
 
 This is the basic setup of a simple clojure app.
 If you run this[INSERT HOW] and point your browser to localhost:8080 you will see "Hello!"
@@ -76,13 +76,13 @@ we start with adding another function to the routes:
   (GET "/form" [] (render-form)))
 
 and the render-form function:
-<script src="http://gist.github.com/555489.js?file=core.clj"></script>
+<script src="http://gist.github.com/55489.js?file=core.clj"></script>
 
 Note: you also have to add: hiccup.form-helpers to the :use list in the ns declaration
 
 Now, evalute the defroutes and the render-form functions and point your browser to http://localhost:8080/form
 
-your core.clj should now look like: http://gist.github.com/555496
+your core.clj should now look like: <a href="http://gist.github.com/55496">http://gist.github.com/55496</a>
 
 Try do type something in the box and submit the form. You will get a "Not found" error in your browser. 
 This is because al our routes ar "GET" and the form use "POST"
@@ -126,7 +126,7 @@ and the function that is called:
 
 
 My full core.clj at this point:
-http://gist.github.com/557879
+<a href="http://gist.github.com/557879">http://gist.github.com/557879</a>
 
 
 Just beeing able to store one task is not going to work very long. Time to expand our tasks and store it in a vector.
