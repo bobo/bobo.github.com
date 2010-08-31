@@ -33,6 +33,7 @@ you will see:
 Now, lets start by getting a webpage running!
 
 http://gist.github.com/555465
+<script src="http://gist.github.com/555465.js?file=core.clj"></script>
 
 This is the basic setup of a simple clojure app.
 If you run this[INSERT HOW] and point your browser to localhost:8080 you will see "Hello!"
@@ -55,7 +56,7 @@ it simply forwards any call to "/" ie "localhost:8080/" to the function display
 (defn display []
   (html [:h1 "hello!"]))
 
-finally we end up in display. al it does is render html with "hello!" in a <h1> tag
+finally we end up in display. al it does is render html with "hello!" in a <h1/> tag
 
 Now for a great thing about clojure and compojure.
 edit the display funktion so it renders something else. ex:
@@ -74,6 +75,7 @@ we start with adding another function to the routes:
 
 and the render-form function:
 http://gist.github.com/555489
+<script src="http://gist.github.com/555489.js?file=core.clj"></script>
 
 Note: you also have to add: hiccup.form-helpers to the :use list in the ns declaration
 
@@ -136,6 +138,7 @@ we now have the session and the task parameter from the form.
 we change the form handler:
 
 http://gist.github.com/557897
+<script src="http://gist.github.com/5557897.js?file=core.clj"></script>
 
 What this does, except for print the task from the form, and the tasks from the session. Is that it checks if the value of the session is a vector.
 If it is. the task is added to the current vector of tasks. If it is not a vector, it is most likely empty, and we create a new vector with our task.
