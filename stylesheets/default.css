@@ -105,7 +105,10 @@ h3 {
 }
 
 #related {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+  padding: 10px;
+  width: 400px;
+  border: 5px solid #eee;
 }
 
 .posts p {
