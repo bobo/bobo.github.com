@@ -110,6 +110,10 @@ h3 {
   width: 400px;
   border: 5px solid #eee;
 }
+#twitter {
+  padding: 10px;
+  border: 5px solid #eee;
+}
 
 .posts p {
   margin: 5px 0 25px 0;
