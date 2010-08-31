@@ -42,9 +42,9 @@ h1 a, h1 a:link, h1 a:visited {
 }
 
 #sidebar {
-  width: 170px;
-  padding: 10px 20px 20px 20px;
-  border-left: 5px solid #eee;
+  width: 160px;
+  padding: 10px 25px 5px 30px;
+  border: 5px solid #eee;
   float: right;
 }
 #sidebar a, #sidebar a:link #sidebar a:visited {
