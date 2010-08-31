@@ -56,7 +56,7 @@ it simply forwards any call to "/" ie "localhost:8080/" to the function display
 (defn display []
   (html [:h1 "hello!"]))
 
-finally we end up in display. al it does is render html with "hello!" in a <h1/> tag
+finally we end up in display. al it does is render html with "hello!" in a &lt;h1&gt; tag
 
 Now for a great thing about clojure and compojure.
 edit the display funktion so it renders something else. ex:
