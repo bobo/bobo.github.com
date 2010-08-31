@@ -1,6 +1,9 @@
+---
+layout: post
+title: Getting started with compojure
+summary: A basic guide to creating a simple todo webapp with compojure and clojure
+---
 
-
-Getting started with clojure and compojure.
 The goal of this tutorial is a simple ajax tasklist written with compojure and jquery. 
 I will be using Lein, so if you dont have that. Head over to: http://github.com/technomancy/leiningen and follow the instructions.
 With that installed, lets start with:
