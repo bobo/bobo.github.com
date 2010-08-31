@@ -13,14 +13,7 @@ lein new SimpleTasks
 This will create a new project for us.
 Lets begin by adding some dependencies that we will need. Open SimpleTasks/project.clj and add the following dependencies:
 
-(defproject SimpleTasks "1.0.0-SNAPSHOT"
-  :description "A Simple clojure tasklist"
-  :dependencies [[org.clojure/clojure "1.2.0"]
-                 [org.clojure/clojure-contrib "1.2.0"]
-                 [compojure "0.4.0"]
-                 [hiccup "0.2.6"]
-                 [ring/ring "0.2.5"]]
-  :dev-dependencies [[swank-clojure "1.2.1"]])
+<script src="http://gist.github.com/558643.js?file=gistfile1.clj"></script>
 
 Save the file and invoke "lein deps". This will download all the dependencies we need.
 If you dont want to use lein, enclojure in netbeans for example works great. All you need to do then is to go to clojars.org and find the dependencies listed above and add them to your project.
@@ -83,9 +76,7 @@ Ok, lets start with the tasklist. The first thing we want is a form to add tasks
 
 We start by adding another function to the routes:
 
-(defroutes myroutes
-  (GET "/" [] (display))
-  (GET "/form" [] (render-form)))
+<script src="http://gist.github.com/558645.js?file=gistfile1.clj"></script>
 
 And this is the render-form function:
 <script src="http://gist.github.com/55489.js?file=core.clj"></script>
