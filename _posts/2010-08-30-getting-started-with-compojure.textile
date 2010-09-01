@@ -72,6 +72,8 @@ edit the display funktion so it renders something else. ex:
 
 To make compojure display this instead, al you need to do is to evalute that function, and reload your browser.
 
+
+
 Ok, lets start with the tasklist. The first thing we want is a form to add tasks:
 
 We start by adding another function to the routes:
@@ -84,6 +86,8 @@ And this is the render-form function:
 Note: you also have to add: hiccup.form-helpers to the :use list in the ns declaration
 
 Now, evalute the defroutes and the render-form functions and point your browser to http://localhost:8080/form
+<i>Hint: if you are using the repl you can use: (require 'SimpleTasks.core :reload) to evaluate it again.</i>
+
 
 your core.clj should now look like: <a href="http://gist.github.com/555496">http://gist.github.com/555496</a>
 
@@ -168,5 +172,11 @@ We now have a list of tasks. This is how mine looks after adding three tasks:
 
 This is enough for the first part.
 We still have some work todo. We cant set tasks as completed or delete tasks. Later, we will also use jquery to make it smother too use. 
+
+<b>update: </b> A question came up on the clojure mailing list <a href="http://groups.google.com/group/clojure/browse_thread/thread/16c4904b60be53ea/ae04e0e29b118057#ae04e0e29b118057">HERE</a> about how to reload a namespace if you are not using emacs. Thanks to mark Rathwell who posted the answer: 
+(require '[foo.something :as something] :reload) 
+(require '[foo.something :as something] :reload-all) 
+
+
 
 
