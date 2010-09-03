@@ -93,4 +93,8 @@ What we do here, is we create a function called done, this adds a clickListener 
 This will be enough for the second part. 
 <a href="http://gist.github.com/563831">My full core.clj</a>
 
+update: a running version can be viewed here: <a href="http://cljtasks.appspot.com/">http://cljtasks.appspot.com/</a>
+Thanks to the excelent guides at: http://compojureongae.posterous.com/ for helping me get it up on app engine!
+
+
 In the next part, we will try to store our tasklist in a NoSQL database.
