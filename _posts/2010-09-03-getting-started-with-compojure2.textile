@@ -1,0 +1,97 @@
+---
+layout: post
+title: Getting started with compojure, part 2
+summary: A basic guide to creating a simple todo webapp with compojure and clojure
+---
+
+This is part two of my getting started with clojure web dev tutorial. In the <a href="http://cleancode.se/2010/08/30/getting-started-with-compojure.html">first  part</a> we built a small tasklist, it is not very functional yet. But we made it ourselves!
+
+In this part, we will add javascript and ajax!
+To do this, we need to be able to serve static files. This is pretty simple. 
+Start by creating a folder "files" in your project folder (ie the same folder as your project.clj)
+In the files folder, create a javascript.js and enter som text in it.
+
+Now, back to core.clj. 
+We have to tell compojure/ring that it should serve files. we do this, wrapping our call to myroutes in the jetty function, to make it easier to read, we also move it to a new function: 
+
+<script src="http://gist.github.com/562596.js"></script>
+
+we will also have to add: ring.middleware.file-info and ring.middleware.file to the (:use ) part of the ns declaration.
+
+Now if you go to http://localhost:8080/javascript.js you should see the contents of your file.
+
+Time for some ajax magic, to make our life simple, we will use jquery, and a jquery plugin called jquery.form.
+you can find jquery.form here: <a href="http://github.com/malsup/form/raw/master/jquery.form.js?v2.43">http://github.com/malsup/form/raw/master/jquery.form.js?v2.43</a>
+and jquery from jquery.org or from google: <a href="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js</a>
+download them and put them in your files folder.
+
+Try loading them in your browser: http://localhost:8080/jquery.min.js it should just works.
+
+To include them in our clojure code, we can use some helper functions in hiccup. 
+
+<script src="http://gist.github.com/562659.js"></script>
+
+Load the form in your webpage again and you should see: &lt;script src="/jquery.js" type="text/javascript"&gt;&lt;/script&gt; and so on in your source.
+
+
+Now we can do some javascript coding!
+Open your javascript.js and enter the following:
+
+<script src="http://gist.github.com/562665.js"></script>
+
+#formresult, is the css id of the tag where the result of the formpost should be placed. we want that in a div just under the form. A div is created like this:
+   [:div {:id "formresult"} "form result will be here"]
+	
+#myform, is the css id of the form we want to turn into an ajaxform. We add this to our form: 
+ (form-to {:id "myform"} [:post "/form" ] 
+
+so the entire function should look like this:
+
+<script src="http://gist.github.com/562674.js"></script>
+  
+Now, evaluate the function and try your form. When you hit enter, it will not reload the page. "form result here" will just be replaced with task3 ["task1" "task2"], if you have entered task1,task2 and task3 in your form. Although that is pretty cool. We want it to look as pretty as our /view does. Simple!
+
+<script src="http://gist.github.com/562710.js"></script>
+
+What we do is simply to move the part that creates a vector of all our tasks to the let assignment. Then we have it handy and can once again use the (unordered-list) function to make our tasklist pretty. Note the (html that is also added. 
+
+Incase you got something wrong, here is my full core.clj
+
+<script src="http://gist.github.com/562716.js"></script>
+
+
+Now, this is not realy a tasklist, we cant remove tasks we are done with. This will be the next step:
+
+We start by creating a new route:
+
+  (GET "/delete/:task" {session :session, params :params} (delete-task (params "task") session))
+
+Note, if we didnt need the session, we could have used the short version:
+	(GET "/delete/:task" [task] (delete-task task session)
+
+
+The :task turns whatever you write there, into a parameter. So if you go to http://localhost:8080/delete/mytask it will call delete-task with the value mytask.
+
+We define our delete-task
+(defn delete-task [task] )
+Now for the question, how do ve remove from the vector? Vectors only support removal by index. The easiest way to solve this is to change our vector to a set. Simply change vector? to set? and (vector to (hash-set. Everything still works!
+
+Now we can write our function:
+
+<script src="http://gist.github.com/562811.js"></script>
+
+now, create some tasks. Then enter http://localhost:8080/delete/sometask and sometask is deleted! you can verify by using the /view we did in part one.
+
+But lets be honest, this is not a usefull way to handle this, We want to be able to click on a item to remove it.
+
+We solve this with some more jquery:
+
+<script src="http://gist.github.com/562841.js"></script>
+
+What we do here, is we create a function called done, this adds a clickListener to all list items. The clickListener calls /delete/list-item-text and on success, hides the item. 
+
+This will be enough for the second part. 
+My full core.clj:
+<script src="http://gist.github.com/563831.js"></script>
+
+In the next part, we will try to store our tasklist in a NoSQL database.
