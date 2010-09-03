@@ -57,7 +57,7 @@ What we do is simply to move the part that creates a vector of all our tasks to 
 
 Incase you got something wrong, here is my full core.clj
 
-<script src="http://gist.github.com/562716.js"></script>
+<a href="http://gist.github.com/562716">core.clj</a>
 
 
 Now, this is not realy a tasklist, we cant remove tasks we are done with. This will be the next step:
@@ -91,7 +91,6 @@ We solve this with some more jquery:
 What we do here, is we create a function called done, this adds a clickListener to all list items. The clickListener calls /delete/list-item-text and on success, hides the item. 
 
 This will be enough for the second part. 
-My full core.clj:
-<script src="http://gist.github.com/563831.js"></script>
+<a href="http://gist.github.com/563831">My full core.clj</a>
 
 In the next part, we will try to store our tasklist in a NoSQL database.
