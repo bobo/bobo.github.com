@@ -8,8 +8,9 @@ layout: default
     {% for post in site.posts %}
       <li>
         <a href="{{ post.url }}">{{ post.title }}</a>
-        <p>{{ post.summary }}</p>
-         <i>written: {{ post.date | date: "%Y %m %d" }}</i>
+        <p>{{ post.summary }}
+          <i>written: {{ post.date | date: "%Y %m %d" }}</i>
+        </p>
       </li>
     {% endfor %}
   </ul>
