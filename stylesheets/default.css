@@ -6,6 +6,11 @@ img {
   border: 0;
 }
 
+i {
+ font-size: 10px;
+ color: #eee;
+}
+
 body {
   line-height: 130%;
   font-size: 100%;
@@ -118,5 +123,6 @@ h3 {
 .posts p {
   margin: 5px 0 25px 0;
 }
+
 
 
