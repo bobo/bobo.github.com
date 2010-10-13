@@ -1,0 +1,34 @@
+---
+layout; nil
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>cleancode.se</title>
+  <link rel="alternate" type="text/html" href="http://cleancode.se/" />
+  <link rel="self" type="application/atom+xml" href="http://cleancode.se/atom.xml" />
+  <id>http://cleancode.se/atom.xml</id>
+  <updated>{{ site.time | date_to_utc | date:"%Y-%m-%dT%H:%M:%SZ" }}</updated>
+  <subtitle>My thoughts on clean code, languages and more.</subtitle>
+
+  {% for post in site.posts limit:15 %}
+    
+  <entry>
+    <title>{{ post.title }}</title>
+    <link rel='alternate' type='text/html' href='{{ post.url }}' />
+    <id>tag:metajack.im:{% if forloop.index0 > last_dash_index %}{{ post.id | replace:"-","_" }}{% else %}{{ post.id }}{% endif %}</id>
+    <updated>{{ post.date | date.getutc:"%Y-%m-%dT%H:%M:00Z" }}</updated>
+    <updated></updated>
+
+    <author>
+      <name>Mikael Sundberg</name>
+      <uri>http://cleancode.se</uri>
+      <email>micke@cleancode.se</email>
+    </author>
+
+    <summary>{{ post.content | html_truncatewords:50 }}</summary>
+    <content type='html' xml:lang='en' xml:base='http://cleancode.se/'>
+      <![CDATA[{{ post.content }}{{ post.extended }}]]>
+    </content>
+  </entry>
+  {% endfor %}
+</feed>
