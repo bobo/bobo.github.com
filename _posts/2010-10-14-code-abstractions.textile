@@ -1,0 +1,53 @@
+<h2>Writing pretty Database code in java.</h2>
+I write alot of database code in java. As an effect, i have a code macro in netbeans. So when i write:
+
+sql[tab]
+it expands to:
+
+<script src="http://gist.github.com/624663.js"> </script>
+
+Yes that is alot of code. And it doesnt even collect the result, or contain the sql needed.
+I got very tired at looking at al this code. I thought alot, tried to extract some usefull method or anything to show the intent of the code more. 
+
+Fortunatly, in java 7 this will be improved. Thanks to the new resource management.
+It will then look something like:
+<script src="http://gist.github.com/624693.js"> </script>
+
+This is a great improvement, but i think we can do better. Also, we wont see java 7 anytime soon. And even when we do, its not sure our legacy projects can use it.
+
+Enter project lombok: <a href="http://projectlombok.org/">http://projectlombok.org/</a>
+Lombok does some nice magic with annotations. We can now get the following:
+
+<script src="http://gist.github.com/624704.js"> </script>
+
+No try catch at all, we pretty much dont have to add any code that we dont want. Creating a connection, preparing a statement, executing an sql, collecting each row into something. Return the Collection of objects. Simple!
+
+But i have been working in PHP alot lately, and this hurts to say. In php, you can abstract away even more.
+You dont even have to create one method for each sql query. you can create a general query. So you can do something like this: 
+
+<script src="http://gist.github.com/624738.js"> </script>
+
+
+The only way to come close to this in java. Is to just use Object everywhere and cast everything as you need. But then you arent coding in java anymore. Instead, alot of java projects now use something like Hibernate. I am not the biggest fan of it. But it seems to do the trick most of the time.
+
+But, lets say we broaden our minds. Java is so much more then just the language, it is a platform. We can change java the language to something that suits our needs more. Enter groovy!
+I havent used groovy alot, but i should have. This is why:
+
+<script src="http://gist.github.com/626735.js"> </script>
+
+<a href="http://docs.codehaus.org/display/GROOVY/Tutorial+6+-+Groovy+SQL"> <i>Example Taken from this Tutorial </i></a>
+
+sql is just an object created with the connection details. This can be reused for all our queries.
+Id and firstname are ofcource columns in the table you select from. And you can instead of printing add objects to a collection or do something else that is usefull. And all in one (1!) row. Groovy also has some other nice features for jdbc. If you do alot of jdbc, you should really take a look!
+
+If you want to go abit further from java. But still stay on the jvm, try clojure! Then your code can look like:
+
+<script src="http://gist.github.com/626745.js"> </script>
+
+<a href="http://en.wikibooks.org/wiki/Clojure_Programming/Examples/JDBC_Examples"><i> Example taken from this page </i></a>
+
+I love clojure, but between the groovy and the clojure examples of jdbc, i prefer groovy. 
+
+I bet you can create Java POJO from sql with jdbc using groovy or clojure, in less code then with Hibernate. And you dont have to clutter your model objects with annotations, you dont have to let Hibernate do bad sql queries, and you get to learn a new language. <b>Go try it!</b>
+
+
