@@ -4,7 +4,6 @@ title: Writing pretty Database code in java.
 summary: Some thoughts on how to make your database code cleaner.
 ---
 
-<h2>Writing pretty Database code in java.</h2>
 I write alot of database code in java. As an effect, i have a code macro in netbeans. So when i write:
 
 sql[tab]
