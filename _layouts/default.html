@@ -12,8 +12,8 @@
      {% if page.summary %}
        <meta namne="description" content="{{ page.summary }}" />
      {% endif %}
-     <link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css" />
-     <link rel="stylesheet" href="/stylesheets/default.css" type="text/css" />
+     <link rel="stylesheet" href="stylesheets/syntax.css" type="text/css" />
+     <link rel="stylesheet" href="stylesheets/default.css" type="text/css" />
 
      {% for css in page.css %}
        <link rel="stylesheet" href="{{ css }}" type="text/css" />
@@ -76,6 +76,20 @@
 		var pageTracker = _gat._getTracker("UA-16984772-1");
 		pageTracker._trackPageview();
 		} catch(err) {}</script>
+
+
+
+
+<script type="text/javascript">
+var disqus_shortname = 'cleanblog';
+
+(function () {
+  var s = document.createElement('script'); s.async = true;
+  s.src = 'http://disqus.com/forums/cleanblog/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+
 
   </body>
 </html>
