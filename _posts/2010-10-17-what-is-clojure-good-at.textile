@@ -1,0 +1,25 @@
+---
+layout: post
+title: What is Clojure good at?
+summary: Some thoughts on what clojure is good at, and why you should learn it.
+---
+I was recently asked the question "What is Clojure's sweetspot?". I ofcources started rambling about how nice it is for concurent applications, that you can make a map statement run in multiple threads by simply changing "map" to "pmap". That you dont have to care about locks and so on. 
+But then i was asked about a real world problem or something that you would encounter in your real day job. I found this alot harder to answer, the only thing i could come up with on the spot was data intense applications like flight caster. But i couldnt realy let the question go. Lets start with what clojure is not.
+
+<h3> Clojure is not a better java </h3>
+
+I often hear "scala is a better java" and i agree with it. With scala, you can continue to write code like you do with java. It will just have less and more effective syntax. This is even the prefered aproach, and makes it easy to introduce scala to new developers. With clojure, this is not the case. You have to think in totaly new ways and it can be realy hard in the begining. But in the end, it is very rewarding. Clojure (and lisp in general) is one of thoose languages that if you learn it, and never get to use it in production. You will still have had great benefit from knowing clojure and the functional ways of thinking. It will affect your coding in java. 
+
+<h3> Clojure is great at java </h3>
+
+Clojure realy is great at java, maybe even better than java itself. It might sound weird at first, but let me explain. 
+<b>First</b> of all, the repl is a killer. This is not something that is unique to clojure, but that doesnt make it less good. Beeing able to try out new api's and fumble forward is great.
+<b>Second</b>, there is no compile time. It is not that the compile time is short, it doesnt exist. Making a change to a webpage will be visible on next reload. All you do is re-evaluate the function you changed. 
+<b>Third</b>, functions without state and side effects are alot easier to test then java code. Yes you can still create hard to test code, but it is harder.
+<b>Fourth</b>, you can abstract away more code. Take memcached for example. When using memcached, you have to collect the value from the cache, check if it is null, if so calculate it. store it in memcached and return it. You cant get rid of thoose 4 lines of extra code in every method (you probably can with annotations but i havent seen it?). In clojure you write a function call it for example with-memcached, you can then simply (with-memcached (some-heavy-code) "memcachedkey") and it will check the cache and so on for you. Same goes for performance timing. how many times have you written long start = System.currentTimemillis(); (or nanos..) {some code } System.out.println("time: "+ (System.currentTimeillis()-start); ? in clojure you can just do (time (my-function)).
+
+I could go on, but im not going to, my point is not to say that Clojure is the best language ever made, or that everybody should learn Clojure. My point is, that if you want to learn and use clojure, it is not only suited for concurent code with big amounts of data. It is suited for most things. It might not be the best language for everything, but then again, no language is.
+
+A small disclaimer, note that i am not saying that Clojure is better then Scala or Groovy or anything else. I am just saying that Clojure is great. You can do alot/everything i mention in for ex Scala, that is besides the point.
+I would love too see someone else write something similar about scala/jruby/groovy/whatnot, It might even already be some posts about it? I would love if someone could help me with more arguments for clojure in everyday life, there is probably a blogpost somewhere out there about that aswell?
+
