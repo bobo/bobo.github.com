@@ -17,30 +17,22 @@ Clojure realy is great at java, maybe even better than java itself. It might sou
 <b>Second</b>, there is no compile time. It is not that the compile time is short, it doesnt exist. Making a change to a webpage will be visible on next reload. All you do is re-evaluate the function you changed. 
 <b>Third</b>, functions without state and side effects are alot easier to test then java code. Yes you can still create hard to test code, but it is harder.
 <b>Fourth</b>, you can abstract away more code. Take memcached for example. When using memcached, you have to 
-<pre>
-collect the value from the cache,
+<pre> collect the value from the cache,
 check if it is null, 
 if so calculate it. 
 store it in memcached 
-return it. 
-</pre>
+return it. </pre>
 You cant get rid of thoose 4 lines of extra code in every method (you probably can with annotations but i havent seen it?). In clojure you write a function call it for example 
 <pre> with-memcached </pre>
 You can then simply 
-<pre> 
-(with-memcached 
-	(some-heavy-code) "memcachedkey")
-</pre>
+<pre> (with-memcached 
+	(some-heavy-code) "memcachedkey") </pre>
 and it will check the cache and so on for you. Same goes for performance timing. how many times have you written 
-<pre>
-long start = System.currentTimemillis(); // (or nanos..) 
+<pre>long start = System.currentTimemillis(); // (or nanos..) 
 {some code } 
 System.out.println("time: "+ (System.currentTimeillis()-start);
-</pre>
- in clojure you can just do 
-<pre>
-(time (my-function))
-</pre>
+</pre> in clojure you can just do 
+<pre>(time (my-function))</pre>
 
 
 I could go on, but im not going to, my point is not to say that Clojure is the best language ever made, or that everybody should learn Clojure. My point is, that if you want to learn and use clojure, it is not only suited for concurent code with big amounts of data. It is suited for most things. It might not be the best language for everything, but then again, no language is.
