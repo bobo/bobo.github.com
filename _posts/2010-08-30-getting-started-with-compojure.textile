@@ -81,7 +81,7 @@ We start by adding another function to the routes:
 <script src="http://gist.github.com/558645.js?file=gistfile1.clj"></script>
 
 And this is the render-form function:
-<script src="http://gist.github.com/55489.js?file=core.clj"></script>
+<script src="https://gist.github.com/757598.js"> </script>
 
 Note: you also have to add: hiccup.form-helpers to the :use list in the ns declaration
 
