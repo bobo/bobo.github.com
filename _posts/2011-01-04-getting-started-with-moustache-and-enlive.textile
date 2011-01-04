@@ -398,19 +398,19 @@ To add to a vector, we can use conj. And since our bookmarks are in an agent we 
 
 An operation with conj without the agent could look like:
 
-<pre>
+{% highlight clojure %}
 (conj @bookmarks {:title "test" :url "www.test.com"})
 [{:title "Something happend!", :url "www.someurl.com"} {:title "More news.", :url "www.newssite.com"} {:title "Very cool stuff", :url "www.verycoolsite.com"} {:title "test", :url "www.test.com"}]
-</pre>
 
+{% endhighlight %}
 Here i deref bookmarks to get the vector. 
 
 if we deref bookmarks again, we will see it hasnt changed.
 
-<pre>
+{% highlight clojure %}
 @bookmarks
 [{:title "Something happend!", :url "www.someurl.com"} {:title "More news.", :url "www.newssite.com"} {:title "Very cool stuff", :url "www.verycoolsite.com"}]
-</pre>
+{% endhighlight %}
 
 
 Since we want the change to be persistent. We have to send conj yo our agent:
@@ -426,9 +426,9 @@ As you can see, send is used by sending the function and its arguments to an age
 
 Using curl to add new bookmarks is not a good way in the long run. I took a look at instapaper, read it later and similar. And changed one of their bookmarklets to work with our own bookmarking tools!
 
-<pre>
+{% highlight javascript %}
 javascript:function%20iprl5(){var d=document,z=d.createElement('scr'+'ipt'),b=d.body,l=d.location;try{if(!b)throw(0);z.setAttribute('src',l.protocol+'//localhost:8080/addBookmark?title='+encodeURIComponent(d.title)+'&url='+encodeURIComponent(l.href));b.appendChild(z);}catch(e){alert('Please wait until the page has loaded.');}}iprl5();void(0)
-</pre>
+{% endhighlight %}
 
 You can create a bookmark in your browser with this as url. Now you can click on it while on any page, and it will add it to your bookmarks page.
 I am not a javascript genie, But it works. It sends a call to localhost:8080/addBookmark with title set to the title of the current page, and url to the url of the current page. Very nice!
@@ -438,7 +438,7 @@ I think this will be enough for this time. There is still alot you can do, and m
 Dont be afraid to leave feedback, good or bad. I cant improve unless i know what is wrong.
 
 The "done" version can be found here:
-<a href ="https://github.com/bobo/FeedTutorial/tree/6c86440edf87e015382ea264b1fd1725cb5e2829">https://github.com/bobo/FeedTutorial/tree/6c86440edf87e015382ea264b1fd1725cb5e2829</a>
+<a href="https://github.com/bobo/FeedTutorial/tree/6c86440edf87e015382ea264b1fd1725cb5e2829">https://github.com/bobo/FeedTutorial/tree/6c86440edf87e015382ea264b1fd1725cb5e2829</a>
 
 
 
