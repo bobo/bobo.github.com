@@ -16,7 +16,7 @@ Start with
 
 I have added all the dependencies that will be used, so we dont have to go back later:
 My project.clj
-{% highlight clojure %}
+<pre>
 
 (defproject FeedTutorial "1.0.0-SNAPSHOT"
   :description "FIXME: write"
@@ -27,7 +27,7 @@ My project.clj
                  [ring/ring-core "0.2.5"]
                  [ring/ring-devel "0.2.5"]
                  [ring/ring-jetty-adapter "0.2.5"]])
-{% endhighlight %}
+</pre>
 
 Now, open up your core.clj. The first thing we need is the basic code for moustache. We will need jetty to run it, and we will need a simple route to display something:
 
