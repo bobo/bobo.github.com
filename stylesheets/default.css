@@ -15,12 +15,12 @@ body {
   line-height: 130%;
   font-size: 100%;
   color: #222;
-  background: #000;
+  background: #fff;
   font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 
 a:hover, a:active, #sidebar a:active, #sidebar a:hover, #content a {
-  color: #fff !important;
+  color: #b40 !important;
 }
 #site {
   width: 850px;
