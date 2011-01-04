@@ -15,12 +15,12 @@ body {
   line-height: 130%;
   font-size: 100%;
   color: #222;
-  background: #fff;
+  background: #000;
   font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 
 a:hover, a:active, #sidebar a:active, #sidebar a:hover, #content a {
-  color: #b40 !important;
+  color: #fff !important;
 }
 #site {
   width: 850px;
@@ -98,6 +98,7 @@ h3 {
   background: #eee;
   border: 1px solid #ccc;
   padding: 15px;
+  overflow: auto;
 }
 
 #post {
