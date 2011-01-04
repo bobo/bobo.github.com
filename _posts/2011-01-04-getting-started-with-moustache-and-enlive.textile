@@ -4,7 +4,7 @@ title: Getting started with Moustache and Enlive
 summary: A simple guide creating a bookmarking site in clojure, using Mustache and Enlive.
 ---
 
-A while ago i wrote a tutorial for compojure. Since i have switched to using enlive and moustache (<a href="https://github.com/cgrand/moustache">https://github.com/cgrand/moustache</a>) almost al the time. I think it is time for them to get a tutorial aswell.
+A while ago i wrote a tutorial for compojure. Since i have switched to using enlive (<a href="https://github.com/cgrand/enlive">https://github.com/cgrand/enlive</a>) and moustache (<a href="https://github.com/cgrand/moustache">https://github.com/cgrand/moustache</a>) almost al the time. I think it is time for them to get a tutorial aswell.
 
 The goal for this tutorial will be to write a simple page for bookmarking.
 
@@ -192,7 +192,7 @@ As you can see, it now takes one argument "items" that is the sequence to be dis
 [:ul#items :li] selects the list tag in the unorderd list items. Then the clone-for function makes a copy of the list tag for each item in items. and sets its content to the content of item.
 
 in other words you should now see:
-
+	
     * Something happend!
     * More news.
     * Very cool stuff
