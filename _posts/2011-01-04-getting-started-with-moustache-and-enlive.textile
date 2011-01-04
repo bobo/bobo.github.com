@@ -328,7 +328,16 @@ curl -d "title=a title&url=www.myurl.com" localhost:8080/addBookmark
 The response i get now is:
 
 
-{:remote-addr "0:0:0:0:0:0:0:1", :scheme :http, :request-method :post, :query-string nil, :content-type "application/x-www-form-urlencoded", :uri "/addBookmark", :server-name "localhost", :headers {"content-type" "application/x-www-form-urlencoded", "content-length" "27", "accept" "*/*", "host" "localhost:8080", "user-agent" "curl/7.21.0 (x86_64-pc-linux-gnu) libcurl/7.21.0 OpenSSL/0.9.8o zlib/1.2.3.4 libidn/1.18"}, :content-length 27, :server-port 8080, :character-encoding nil, :body #<Input org.mortbay.jetty.HttpParser$Input@769652dd>}
+{:remote-addr "0:0:0:0:0:0:0:1", :scheme :http, 
+:request-method :post, :query-string nil, 
+:content-type "application/x-www-form-urlencoded", 
+:uri "/addBookmark", 
+:server-name "localhost", 
+:headers {"content-type" "application/x-www-form-urlencoded", 
+"content-length" "27", "accept" "*/*", "host" "localhost:8080", 
+"user-agent" "curl/7.21.0 (x86_64-pc-linux-gnu) libcurl/7.21.0 OpenSSL/0.9.8o zlib/1.2.3.4 libidn/1.18"}, 
+:content-length 27, :server-port 8080, :character-encoding nil, 
+:body #<Input org.mortbay.jetty.HttpParser$Input@769652dd>}
 
 
 
@@ -358,7 +367,19 @@ You also need to use wrap params in the ns declaration:
 Now if we try our curl again:
 
 curl -d "title=a title&url=myurl.com" localhost:8080/addBookmarks
-{:remote-addr "0:0:0:0:0:0:0:1", :scheme :http, :query-params {}, :form-params {"url" "myurl.com", "title" "a title"}, :request-method :post, :query-string nil, :content-type "application/x-www-form-urlencoded", :uri "/addBookmarks", :server-name "localhost", :params {"url" "myurl.com", "title" "a title"}, :headers {"content-type" "application/x-www-form-urlencoded", "content-length" "27", "accept" "*/*", "host" "localhost:8080", "user-agent" "curl/7.21.0 (x86_64-pc-linux-gnu) libcurl/7.21.0 OpenSSL/0.9.8o zlib/1.2.3.4 libidn/1.18"}, :content-length 27, :server-port 8080, :character-encoding nil, :body #<Input org.mortbay.jetty.HttpParser$Input@44fc63be>}
+{:remote-addr "0:0:0:0:0:0:0:1", 
+:scheme :http, :query-params {}, 
+:form-params {"url" "myurl.com", "title" "a title"}, 
+:request-method :post, :query-string nil, 
+:content-type "application/x-www-form-urlencoded", 
+:uri "/addBookmarks", 
+:server-name "localhost", 
+:params {"url" "myurl.com", "title" "a title"}, 
+:headers {"content-type" "application/x-www-form-urlencoded", 
+"content-length" "27", "accept" "*/*", "host" "localhost:8080", 
+"user-agent" "curl/7.21.0 (x86_64-pc-linux-gnu) libcurl/7.21.0 OpenSSL/0.9.8o zlib/1.2.3.4 libidn/1.18"}, 
+:content-length 27, :server-port 8080, :character-encoding nil, 
+:body #<Input org.mortbay.jetty.HttpParser$Input@44fc63be>}
 
 
 Now it is there! nice and tidy in a map we can reach using the :params key. To clean up a little, we can use destructuring in the add-bookmark function and only fetch the params.h
@@ -400,7 +421,10 @@ An operation with conj without the agent could look like:
 
 {% highlight clojure %}
 (conj @bookmarks {:title "test" :url "www.test.com"})
-[{:title "Something happend!", :url "www.someurl.com"} {:title "More news.", :url "www.newssite.com"} {:title "Very cool stuff", :url "www.verycoolsite.com"} {:title "test", :url "www.test.com"}]
+[{:title "Something happend!", :url "www.someurl.com"} 
+{:title "More news.", :url "www.newssite.com"} 
+{:title "Very cool stuff", :url "www.verycoolsite.com"} 
+{:title "test", :url "www.test.com"}]
 
 {% endhighlight %}
 Here i deref bookmarks to get the vector. 
@@ -409,7 +433,9 @@ if we deref bookmarks again, we will see it hasnt changed.
 
 {% highlight clojure %}
 @bookmarks
-[{:title "Something happend!", :url "www.someurl.com"} {:title "More news.", :url "www.newssite.com"} {:title "Very cool stuff", :url "www.verycoolsite.com"}]
+[{:title "Something happend!", :url "www.someurl.com"} 
+{:title "More news.", :url "www.newssite.com"} 
+{:title "Very cool stuff", :url "www.verycoolsite.com"}]
 {% endhighlight %}
 
 
@@ -427,7 +453,11 @@ As you can see, send is used by sending the function and its arguments to an age
 Using curl to add new bookmarks is not a good way in the long run. I took a look at instapaper, read it later and similar. And changed one of their bookmarklets to work with our own bookmarking tools!
 
 {% highlight javascript %}
-javascript:function%20iprl5(){var d=document,z=d.createElement('scr'+'ipt'),b=d.body,l=d.location;try{if(!b)throw(0);z.setAttribute('src',l.protocol+'//localhost:8080/addBookmark?title='+encodeURIComponent(d.title)+'&url='+encodeURIComponent(l.href));b.appendChild(z);}catch(e){alert('Please wait until the page has loaded.');}}iprl5();void(0)
+javascript:function%20iprl5(){
+var d=document,z=d.createElement('scr'+'ipt'),
+b=d.body,l=d.location;try{if(!b)throw(0);
+z.setAttribute('src',l.protocol+'//localhost:8080/addBookmark?title='+encodeURIComponent(d.title)+'&url='+encodeURIComponent(l.href));b.appendChild(z);}
+catch(e){alert('Please wait until the page has loaded.');}}iprl5();void(0)
 {% endhighlight %}
 
 You can create a bookmark in your browser with this as url. Now you can click on it while on any page, and it will add it to your bookmarks page.
