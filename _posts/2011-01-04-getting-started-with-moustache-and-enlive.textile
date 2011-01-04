@@ -1,0 +1,445 @@
+---
+layout: post
+title: Getting started with Moustache and Enlive
+summary: A simple guide creating a bookmarking site in clojure, using Mustache and Enlive.
+---
+
+A while ago i wrote a tutorial for compojure. Since i have switched to using enlive and moustache (<a href="https://github.com/cgrand/moustache">https://github.com/cgrand/moustache</a>) almost al the time. I think it is time for them to get a tutorial aswell.
+
+The goal for this tutorial will be to write a simple page for bookmarking.
+
+<h2> Getting started </h2>
+
+I will be using Leinigen, you can ofcource use Cake without changing much (if anything at al). 
+Start with
+<pre>lein new FeedTutorial</pre>
+
+I have added all the dependencies that will be used, so we dont have to go back later:
+My project.clj
+{% highlight clojure %}
+
+(defproject FeedTutorial "1.0.0-SNAPSHOT"
+  :description "FIXME: write"
+  :dependencies [[org.clojure/clojure "1.2.0"]
+                 [org.clojure/clojure-contrib "1.2.0"]
+                 [enlive  "1.0.0-SNAPSHOT"]
+                 [net.cgrand/moustache "1.0.0-SNAPSHOT"]
+                 [ring/ring-core "0.2.5"]
+                 [ring/ring-devel "0.2.5"]
+                 [ring/ring-jetty-adapter "0.2.5"]])
+{% endhighlight %}
+
+Now, open up your core.clj. The first thing we need is the basic code for moustache. We will need jetty to run it, and we will need a simple route to display something:
+
+
+<pre>
+(ns FeedTutorial.core
+  ( :use net.cgrand.moustache
+         net.cgrand.enlive-html
+         ring.util.response
+         [ring.adapter.jetty :only [run-jetty]]))
+
+(def my-app-handler
+     (app     
+      [""] (-> "My own page!" response constantly)))
+
+(run-jetty #'my-app-handler {:port 8080
+                                  :join? false})
+
+</pre>
+
+app is macro, it helps us to create routes in an easy syntax.
+the [""] mapps to the root, ie when jetty is running you can go to http://localhost:8080/ and se "My own page!"
+if you change [""] to for example ["wow"] it will instead map to http://localhost:8080/wow
+
+The "response" function takes a string and creates a response map. We can run it in the repl:
+FeedTutorial.core> (-> "Sometext" response)
+{:status 200, :headers {}, :body "Sometext"}
+
+In case you havent seen -> before. it is a macro that just makes the code easier to read.
+(-> a b c d) is the same as (d (c (b (a))))
+
+So we could write:
+FeedTutorial.core> (response "Sometext")
+{:status 200, :headers {}, :body "Sometext"}
+
+The constantly function just takes anything and creates a function that takes any number of arguments and returns what you gave it.
+For example:
+
+FeedTutorial.core> ((constantly 1) 2)
+1
+FeedTutorial.core> ((constantly 1) 2 3 4 5 6 7)
+1
+
+In other words:
+(-> "My own page!" response constantly)) 
+creates a function that always returns a response with the body "My own page!"
+
+<h2> Adding a template </h2>
+As i said earlier, i will use enlive, wich is a templating engine. Lets see some code, we create our first template:
+
+<pre>
+(deftemplate index "FeedTutorial/index.html"
+  [])
+</pre>
+
+Now all this template does, is that it loads the FeedTutorial/index.html file. This ofcource means we have to create it. It should be located in: 
+FeedTutorial/src/FeedTutorial/index.html that is the same folder as your core.clj.
+At this point it doesnt realy mather how it looks, i created the following:
+
+<pre>
+<html>
+  <head>
+    <title>My page!</title>
+  </head>
+<body>
+   I am using a template!
+</body>
+</html>
+</pre>
+
+Calling the function at the repl yields:
+FeedTutorial.core> (index)
+("<html>\n  <head>\n    <title>My page!</title>\n  </head>\n<body>\n   I am using a template!\n</body>\n\n</html>")
+
+Note: if you get a nullpointerexception, you probably put the index.html in the wrong folder.
+
+As you can see it is simply the html code in a list as a string.
+
+We also need to add a route for it. I moved our old route to "hello", you can remove it if you like. My routes look like the following:
+
+
+<pre>
+(def my-app-handler
+     (app
+      [""] (-> (index) response constantly)
+      ["hello"] (-> "My own page!" response constantly)))
+</pre>
+
+As you can see it is the same as before, except that i wrap "index" in paranthesis to call it. rendering the string.
+Now if you browse http://localhost:8080/ you will see the html you wrote in index.html
+
+<h2>Making changes to the template</h2>
+
+Displaying a static .html file is not realy magic. To make changes, we first add something in the .html file that we want to change.
+I added:
+
+<pre>
+   <div id="bookmarks">
+     
+   </div>
+</pre>
+
+To add some text in that div, using enlive. We expand our template:
+
+<pre>
+
+(deftemplate index "FeedTutorial/index.html"
+  []
+  [:div#bookmarks] (content "I changed the html"))
+
+</pre>
+
+As you might have guessed. that row says:
+"Find the div with id 'bookmarks' and set the content to 'I changed the html'"
+If you happen to know jquery, it is equal to:
+<pre>
+$("div#bookmarks").html("jquery changed me");
+</pre>
+
+If you now browse to http://localhost:8080 you should see the text "I changed the html" (in addition to any other text you had on the page before)
+
+Now, lets say we have a vector of strings:
+
+<pre>
+
+(def bookmarks ["Something happend!" "More news." "Very cool stuff"])
+
+</pre>
+
+And we want that to be a list on our page?
+First: we add a list tag to our html.
+
+<pre>
+   <ul id="items">
+	<li>This will be replaced</li>
+   </ul>
+</pre>
+
+
+Then we update our template:
+
+<pre>
+(deftemplate index "FeedTutorial/index.html"
+  [items]
+  [:div#bookmarks] (content "I changed the html")
+  [:ul#items :li] (clone-for [item items]
+                          (content item)))
+
+</pre>
+And since we added an argument (items) to the template, we need to update our route:
+
+<pre>
+      [""] (-> (index bookmarks) response constantly)
+</pre>
+
+As you can see, it now takes one argument "items" that is the sequence to be displayed as a list.
+[:ul#items :li] selects the list tag in the unorderd list items. Then the clone-for function makes a copy of the list tag for each item in items. and sets its content to the content of item.
+
+in other words you should now see:
+
+    * Something happend!
+    * More news.
+    * Very cool stuff
+
+
+Very pretty!
+Now, maybe we want to display the link to the source of the bookmark aswell.
+
+We can update our bookmarks vector to contain the urls aswell:
+
+<pre>
+
+(def bookmarks [ {:title "Something happend!" :url "www.someurl.com"}
+                  {:title "More news." :url "www.newssite.com"}
+                  {:title "Very cool stuff" :url "www.verycoolsite.com"}])
+
+</pre>
+
+A list is not very suitable to display this. So lets change the html file to contain a table instead.
+
+
+<pre>
+
+   <table id="items">
+    <tr class="bookmark">
+     <td class="title"></td>
+     <td class="url"></td>
+    </tr>
+    </table>
+
+</pre>
+
+We ofcource also need to update the template:
+
+<pre>
+(deftemplate index "FeedTutorial/index.html"
+  [items]
+  [:div#bookmarks] (content "I changed the html")
+  [:table#items :tr.bookmark] (clone-for [item items]
+                                [:td.title] (content (:title item))
+                                [:td.url] (content (:url item))))
+</pre>
+
+I changed the ul to be the table. and point the first selector to the :tr. Since that has children, ie two :td elements. We can clone them and change their content. I find this an extremly elegant way to do this. We can move the table anywhere we like in the html, we can style it with css. We can do anything view related without havint to see any clojure code. 
+If you visit localhost:8080 and view the source. it should look something like:
+
+<pre>
+   <table id="items"> 
+    <tr class="bookmark"> 
+     <td class="title">Something happend!</td> 
+     <td class="url">www.someurl.com</td> 
+    </tr><tr class="bookmark"> 
+     <td class="title">More news.</td> 
+     <td class="url">www.newssite.com</td> 
+    </tr><tr class="bookmark"> 
+     <td class="title">Very cool stuff</td> 
+     <td class="url">www.verycoolsite.com</td> 
+    </tr> 
+ 
+    </table> 
+</pre>
+
+We can now for example add a table header in our html file:
+
+<pre>
+   
+   <table id="items">
+    <tr class="header">
+      <th>Title</th>
+      <th>URL</th>
+    </tr>
+    <tr class="bookmark">
+     <td class="title"></td>
+     <td class="url"></td>
+    </tr>
+   </table>
+</pre>
+
+To get the page to update you need to evaluate the enlive template again. 
+
+My full project now can be found at:
+
+<a href="https://github.com/bobo/FeedTutorial/tree/27854d4d7abaafcdfdaa35a03b97cc3419f21ae9">https://github.com/bobo/FeedTutorial/tree/27854d4d7abaafcdfdaa35a03b97cc3419f21ae9</a>
+
+That is my files as they looked at this point.
+
+I removed the initial "i am using a template" text since it isnt used.
+
+We should use the bookmarks div for something more usefull. We can put a header there for example!
+
+Change the Template to:
+<pre>
+  [:div#bookmarks :*] (content "My own bookmarkingpage!")
+</pre>
+
+The :* is not a smiley, it selects anything. I choose to use it so we can change from h1 to h2 or something else. Without having to go into the clojure code.
+
+In the html file i put:
+
+<pre>
+  <div id="bookmarks">
+    <h1></h1>
+  </div>
+</pre>
+
+
+<h2>Adding new content</h2>
+
+We have a very static page, since the only way to change the content now is to change the clojure code itself. We can change this by adding a /addBookmark route
+
+First we need a function to handle the request:
+
+<pre>
+(defn add-bookmark [request]
+  (response (str request)))
+</pre>
+
+For now, it just returns a response displaying the http request as a string
+And add a route for it and tell moustache that it should call add-bookmark.
+<pre>
+      ["addBookmark"] add-bookmark
+</pre>
+
+As you can see, we dont say anything about the request, or dont pass any parameter into add-bookmark, even though it requires one. Moustache takes care of this for us.
+
+If you browse to your localhost:8080/addBookmark you will now see your request map. mine looks like this:
+
+<pre>
+{:remote-addr "0:0:0:0:0:0:0:1", :scheme :http, :request-method :get, :query-string nil, :content-type nil, :uri "/addBookmark", :server-name "localhost", :headers {"accept-charset" "ISO-8859-1,utf-8;q=0.7,*;q=0.3", "accept-language" "en-US,en;q=0.8", "accept-encoding" "gzip,deflate,sdch", "user-agent" "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/534.15 (KHTML, like Gecko) Chrome/10.0.612.1 Safari/534.15", "accept" "application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5", "connection" "keep-alive", "host" "localhost:8080"}, :content-length nil, :server-port 8080, :character-encoding nil, :body #<Input org.mortbay.jetty.HttpParser$Input@1faf67f0>}
+</pre>
+
+Since we are adding a new bookmark, we want to use request-method post. To be able to post you can use curl, find a plugin for your browser, or write a simple html form. I will use curl. 
+I want the parameters to be called "title" and "url" so my curl command would be:
+<pre>
+curl -d "title=a title&url=www.myurl.com" localhost:8080/addBookmark
+</pre>
+
+The response i get now is:
+
+<pre>
+{:remote-addr "0:0:0:0:0:0:0:1", :scheme :http, :request-method :post, :query-string nil, :content-type "application/x-www-form-urlencoded", :uri "/addBookmark", :server-name "localhost", :headers {"content-type" "application/x-www-form-urlencoded", "content-length" "27", "accept" "*/*", "host" "localhost:8080", "user-agent" "curl/7.21.0 (x86_64-pc-linux-gnu) libcurl/7.21.0 OpenSSL/0.9.8o zlib/1.2.3.4 libidn/1.18"}, :content-length 27, :server-port 8080, :character-encoding nil, :body #<Input org.mortbay.jetty.HttpParser$Input@769652dd>}
+
+</pre>
+
+It says nothing about my title or url! We need to tell moustache to wrap the parameters. we use the ring middleware "wrap-params" for this. My routes now look like:
+(after removing the now unused "hello" route)
+
+<pre>
+(def my-app-handler
+     (app
+      wrap-params
+      ["addBookmark"]  add-bookmark
+      [""] (-> (index bookmarks) response constantly)
+      ["raw"] (-> (raw) response constantly)))
+</pre>
+
+You also need to use wrap params in the ns declaration:
+
+<pre>
+(ns FeedTutorial.core
+  ( :use net.cgrand.moustache
+         net.cgrand.enlive-html
+         ring.util.response
+         ring.middleware.params
+         [ring.adapter.jetty :only [run-jetty]]))
+</pre>
+
+Now if we try our curl again:
+<pre>
+curl -d "title=a title&url=myurl.com" localhost:8080/addBookmarks
+{:remote-addr "0:0:0:0:0:0:0:1", :scheme :http, :query-params {}, :form-params {"url" "myurl.com", "title" "a title"}, :request-method :post, :query-string nil, :content-type "application/x-www-form-urlencoded", :uri "/addBookmarks", :server-name "localhost", :params {"url" "myurl.com", "title" "a title"}, :headers {"content-type" "application/x-www-form-urlencoded", "content-length" "27", "accept" "*/*", "host" "localhost:8080", "user-agent" "curl/7.21.0 (x86_64-pc-linux-gnu) libcurl/7.21.0 OpenSSL/0.9.8o zlib/1.2.3.4 libidn/1.18"}, :content-length 27, :server-port 8080, :character-encoding nil, :body #<Input org.mortbay.jetty.HttpParser$Input@44fc63be>}
+
+</pre>
+Now it is there! nice and tidy in a map we can reach using the :params key. To clean up a little, we can use destructuring in the add-bookmark function and only fetch the params.h
+
+<pre>
+(defn add-bookmark [{params :params}]
+  (response (str params)))
+</pre>
+
+We now get a much nicer response:
+
+<pre>
+
+ curl -d "title=a title&url=myurl.com" localhost:8080/addNews
+{"url" "myurl.com", "title" "a title"}
+
+</pre>
+
+To be able to add bookmarks in a nice way. We can wrap it as an agent:
+
+<pre>
+(def bookmarks (agent [{:title "Something happend!" :url "www.someurl.com"}
+                       {:title "More news." :url "www.newssite.com"}
+                       {:title "Very cool stuff" :url "www.verycoolsite.com"}]))
+</pre>
+
+
+We then have to replace references to bookmarks with @bookmarks. The route for example will now be:
+
+<pre>
+      [""] (-> (index @bookmarks) response constantly)
+</pre>
+
+
+To add to a vector, we can use conj. And since our bookmarks are in an agent we have to use send to send a function and its arguments to the agent.
+
+
+An operation with conj without the agent could look like:
+
+<pre>
+(conj @bookmarks {:title "test" :url "www.test.com"})
+[{:title "Something happend!", :url "www.someurl.com"} {:title "More news.", :url "www.newssite.com"} {:title "Very cool stuff", :url "www.verycoolsite.com"} {:title "test", :url "www.test.com"}]
+</pre>
+
+Here i deref bookmarks to get the vector. 
+
+if we deref bookmarks again, we will see it hasnt changed.
+
+<pre>
+@bookmarks
+[{:title "Something happend!", :url "www.someurl.com"} {:title "More news.", :url "www.newssite.com"} {:title "Very cool stuff", :url "www.verycoolsite.com"}]
+</pre>
+
+
+Since we want the change to be persistent. We have to send conj yo our agent:
+
+<pre>
+(defn add-bookmark [{params :params}]
+  (send bookmarks conj {:title (params "title") :url (params "url")})
+  (response (str params)))
+</pre>
+
+As you can see, send is used by sending the function and its arguments to an agent. that function is then applied to the content of the agent.
+
+
+Using curl to add new bookmarks is not a good way in the long run. I took a look at instapaper, read it later and similar. And changed one of their bookmarklets to work with our own bookmarking tools!
+
+<pre>
+javascript:function%20iprl5(){var d=document,z=d.createElement('scr'+'ipt'),b=d.body,l=d.location;try{if(!b)throw(0);z.setAttribute('src',l.protocol+'//localhost:8080/addBookmark?title='+encodeURIComponent(d.title)+'&url='+encodeURIComponent(l.href));b.appendChild(z);}catch(e){alert('Please wait until the page has loaded.');}}iprl5();void(0)
+</pre>
+
+You can create a bookmark in your browser with this as url. Now you can click on it while on any page, and it will add it to your bookmarks page.
+I am not a javascript genie, But it works. It sends a call to localhost:8080/addBookmark with title set to the title of the current page, and url to the url of the current page. Very nice!
+
+
+I think this will be enough for this time. There is still alot you can do, and maybe il write a part two. 
+Dont be afraid to leave feedback, good or bad. I cant improve unless i know what is wrong.
+
+The "done" version can be found here:
+<a href ="https://github.com/bobo/FeedTutorial/tree/6c86440edf87e015382ea264b1fd1725cb5e2829">https://github.com/bobo/FeedTutorial/tree/6c86440edf87e015382ea264b1fd1725cb5e2829</a>
+
+
+
+
