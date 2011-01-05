@@ -17,7 +17,6 @@
     <link rel='alternate' type='text/html' href='{{ post.url }}' />
     <id>http://www.cleancode.se/:{% if forloop.index0 > last_dash_index %}{{ post.id | replace:"-","_" }}{% else %}{{ post.id }}{% endif %}</id>
     <updated>{{ post.date | date.getutc:"%Y-%m-%dT%H:%M:00Z" }}</updated>
-    <updated></updated>
 
     <author>
       <name>Mikael Sundberg</name>
@@ -25,7 +24,7 @@
       <email>micke@cleancode.se</email>
     </author>
 
-    <summary>{{ post.content | html_truncatewords:50 }}</summary>
+    <summary>{{ post.summary | html_truncatewords:50 }}</summary>
     <content type='html' xml:lang='en' xml:base='http://cleancode.se/'>
       <![CDATA[{{ post.content }}{{ post.extended }}]]>
     </content>
