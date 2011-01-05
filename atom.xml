@@ -15,7 +15,7 @@
   <entry>
     <title>{{ post.title }}</title>
     <link rel='alternate' type='text/html' href='{{ post.url }}' />
-    <id>tag:metajack.im:{% if forloop.index0 > last_dash_index %}{{ post.id | replace:"-","_" }}{% else %}{{ post.id }}{% endif %}</id>
+    <id>http://www.cleancode.se/:{% if forloop.index0 > last_dash_index %}{{ post.id | replace:"-","_" }}{% else %}{{ post.id }}{% endif %}</id>
     <updated>{{ post.date | date.getutc:"%Y-%m-%dT%H:%M:00Z" }}</updated>
     <updated></updated>
 
