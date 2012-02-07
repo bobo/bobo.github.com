@@ -1,0 +1,29 @@
+---
+layout: post
+title: Lessons learned from ehcache.
+summary: Some gotchas i stumbled on while using ehcache.
+---
+
+I recently took over a webpage that is using ehcache for caching. I had never used ehcache before and from start i was far from impressed. It was alot of xml, i found the get from caches was much slower then what i am used to see in for example memcached. After some more looking around in the code i found a CacheManager implementation and a cacheKey generator. The later was my biggest surprise. To generate a key for a cache (get or put) it used a deep json representation of al the arguments of the method called. This included some methods that used Lists and other complex datastructures as arguments. This ofcource had to be changed. So i upgraded ehcache and added ehcache-spring-annotations to get rid of the xml. And i used the default deep hashcode key implementation provided by the annotations library. The upgrade and conversion went fairly smooth. But i learnt some things that i thought i should share:
+
+Ehcache doesnt have a default eviction policy, or rather. the default eviction policy is to not remove dead elements until the cache is full.  An element is only ever removed if the cache is full. Or when a get of the element realizes that the element is to old, then it is purged and a new item is generated. This behaviour can be changed in your applicationcontext by adding an eviction policy and setting a time in minutes for how often the cache should be cleaned.
+
+{% highlight xml %}
+    <ehcache:config cache-manager="cacheManager">
+        <ehcache:evict-expired-elements interval="60"/>
+    </ehcache:config>
+{% endhighlight %}
+
+
+One hard to find bug was introduced in the migration. Some values seemed to randomly suddenly get the default value, it came and went by flushing the cache. After alot of debbuging, we found that it was since one method that took an Integer as argument, made a difference between 0 and null in the inside the method. And it seems that in the hashcode based key generator, null and 0 get the same hashcode. Not a big supprice but still. And the real problem was that the code used null as a value, but it is something to watch out for.
+
+
+Since the annotations create a proxy of the class, they require an interface, and that the call to the method is from otuside the class. otherwise it wont pass through the proxy created by the annotation. You wont get notified by this in any other way then that the cache will stay empty.
+
+I had pretty much only used memcached before, so this came as a big surprise to me. By default, when you get from the cache, you get the actual instance of the object you put there. This of cource makes sense when you think about it, but i wasn't ready for it. The effect is that if you change a mutable item after you get it from the cache, you also change it in the cache. You cant treat the instance you get as a unique instance. There is a setting to enable copy on read and copy on write. I decided to take care of that myself, since most items are immutable anyway and those that aren't i know how to copy faster then just serializing them back and forth. The best solution is of cource to only have immutable objects.
+
+
+Most (if not all) of this is things you can find in the documentation of ehcache and ehcache-spring-annotations. But i guess im not the only one who has a hard time to find it al. Especially if you arent looking.
+
+Overall i must say, that now when i am getting used to ehcache. It feels pretty nice. I love the fact that you dont have to do the normal get from cache, check if null dance that im used to from just using memcached. 
+
