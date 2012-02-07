@@ -127,5 +127,9 @@ h3 {
   margin: 5px 0 25px 0;
 }
 .right {
-float: right;
+   float: right;
+}
+
+.test {
+   display: block;
 }
