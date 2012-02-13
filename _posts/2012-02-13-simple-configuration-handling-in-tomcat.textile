@@ -1,0 +1,49 @@
+---
+layout: post
+title: Simple configuration handling in tomcat
+summary: My simple solution on keeping production and development configuration in sync
+---
+
+Keeping configuration in sync and making it easy to change is extremly important. When doing changes in production you want to know that thera are no human errors in editing. And you want to be sure that the exact same configuration was tested in development before putting it live. There are several solutions that solve this problem. My favorite and probably the most known is puppet. But although puppet seems awesome, for many reasons we are not ready to implement puppet at work now. But i still wanted to fix my problem with configuration handling, atleast for some things. My first target beeing server.xml of tomcat. Mostly since we have been tuning our connectionpools alot lately, and it is tedious to change a number in 15+ places everytime. I looked around and didnt find anything simple enough. So i went the classic way and did it myself. I decided to use python (despite i don't really know it), mostly because i know al the 
+servers can run python and its a simple language. 
+
+My script ended up as follows:
+{% highlight python %}
+import os, sys,host	Info
+f=open("server.xml", "r")
+text = f.read();
+text = text.format(**hostInfo.info);
+print text
+{% endhighlight %}
+
+
+where hostinfo is a python file with a map
+
+{% highlight python %}
+info={
+'mysqlHost': '192.168.65.1,
+'hostname': 'myawesomeserver',
+'logdir' : '/mount/logs/myawesomeserver',
+'workerName' : 'tomcat1'
+}
+{% endhighlight %}
+
+
+And thats basicly it. i can now in my server.xml for example write:
+
+{% highlight xml %}
+
+   <Resource name="jdbc/MySQL/myawesomedb" auth="Container"
+                   type="javax.sql.DataSource"
+                   initialSize="1" maxActive="10" maxIdle="4" maxWait="10000"
+                   username="user" password="topsecret" driverClassName="com.mysql.jdbc.Driver"
+                   url="jdbc:mysql://{mysqlHost}:3306/myawesomedb"
+                   />
+
+{% endhighlight %}
+
+Now if i change the configuration, i can simply push it out to our stage enviroment first. Where i have one mysqlHost. And when i know the change works and its time for production. I can be sure to push out the exact same configuration to al my production servers without any risk of human errors. And al it took was 5 lines of python. 
+
+This can (and should) be more generalised to take other files then server.xml. To actually push the configuration out to servers i can think of several ways. Either run it local for each server and pipe the output into files and push thoose into git/svn. Or you can keep the template in svn, and just keep the hostinfo.py on each server and run the script there.
+
+For me, this was a solution so obvious and simple that i at first didnt think it was worth a blog post. But then on the other hand. It took me several years to think of this obvious simple idea. So maybe, just maybe. Im not alone.
