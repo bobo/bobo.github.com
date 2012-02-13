@@ -8,14 +8,16 @@ Keeping configuration in sync and making it easy to change is extremly important
 servers can run python and its a simple language. 
 
 My script ended up as follows:
+
 {% highlight python %}
+
 import os, sys,host	Info
 f=open("server.xml", "r")
 text = f.read();
 text = text.format(**hostInfo.info);
 print text
-{% endhighlight %}
 
+{% endhighlight %}
 
 where hostinfo is a python file with a map
 
