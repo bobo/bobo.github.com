@@ -6,23 +6,23 @@ summary: Tools that can help java developers to be more productive and keep the 
 
 As a developer, i use alot of tools, some help more then other. For a while now, i have been forcing myself to learn new tools to see what could increase my productivity. I thought maybe my learnings could be of some help.
 
-jrebel
+<h3>jrebel</h3>
 I remember the time before i found jrebel. I will never go back. Not having to redeploy is incredibly important. The time from implementation to feedback needs to be kept short, and with jrebel it is close to 0. It isnt perfect, there are some things that cant be reloaded, it uses some extra memory but is worth it.
 
- tmux
+ <h3>tmux</h3>
 I have used screen for a long time togheter with irssi. But not much else. I also loved the split screens in emacs for a long time. With tmux you can have split screen terminals that live between sessions. Using split screens and multiple terminals in one window makes it easier for me to find the terminal i want. I have a terminal full screen on one monitor, and switch window for when im coding, deploying, or any other type of task. 
 
-zsh
+<h3>zsh</h3>
 Although bash is great, zsh is the next step. smarter auto-completion, a history that works, and so much more. you can probably get your bash to do most of the great stuff from zsh, but unless you are a hardcore bash lover. I dont see any point in that. zsh just works. Also take a look at oh-my-zsh (https://github.com/robbyrussell/oh-my-zsh). For plug in and theme handling.
 
-sublime
+<h3>sublime</h3>
 I must admit I'm very new to sublime, just about a week, but the love came fast. It does most of what my beloved netbeans does, but faster, and while using way less memory. Dont get me wrong, it is not an ide, it is an editor. But i still use it on my laptoptop for some java. It is just easier to get up and running. And with jrebel and maven cli, it just works great. But mostly i use it as a text editor, and to edit non java code. 
 
-vi(m)
+<h3>vi(m)</h3>
 first of all, im not saying vim is better then emacs (or the other way around). You should learn vim anyway. Not to replace your ide or editor of choice. But instead of using nano to edit config files and similar while on ssh. I dont think i have ever used a server without vi installed, but they hardly ever have for example emacs. And if im going to use vim, i should be good at it.
 
 
-bash/awk/sed/cut/a good scripting language
+<h3>bash/awk/sed/cut/a good scripting language</h3>
 Even if you are working with java al day long. Some tasks are more suitable for a small bash script or a oneliner with awk/sed. Writing a small shellscript is often incredibly fast. And when you know what you can do, you will find more simple scripts to make your everyday easier.
 I also recomend learning a more powerfull scripting language, i prefer python but ruby or any other language that you most likely can run on any server is just as good. Some tasks are just to big for bash, but you still want it as a script.
 
