@@ -2,44 +2,10 @@
   clear: both;
 }
 
-img {
-  border: 0;
-}
-
-i {
- font-size: 12px;
- color: #000;
-}
-
-body {
-  line-height: 130%;
-  font-size: 100%;
-  color: #222;
-  background: #fff;
-  font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
-}
-
-a:hover, a:active, #sidebar a:active, #sidebar a:hover, #content a {
-  color: #b40 !important;
-}
 #site {
-  width: 850px;
+  max-width: 850px;
   margin: auto;
 }
-
-#subscribe {
-  float: right;
-  margin: 20px;
-}
-
-h1 {
-  margin: 0;
-  padding: 20px;
-  text-decoration: none;
-  color: #000;
-}
-
-
 
 #slogan {
   margin: 15px;
@@ -132,4 +98,11 @@ h3 {
 
 .test {
    display: block;
+}
+
+#name, #title {
+  display: inline-block;
+}
+#logo {
+  display: block;
 }
