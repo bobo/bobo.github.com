@@ -9,7 +9,9 @@ To (almost) never have a request hit a cold cache:
 annotate your cached methods with:
 
 {% highlight java %}
-@Cacheable(cacheName="propertyCache", decoratedCacheType= DecoratedCacheType.REFRESHING_SELF_POPULATING_CACHE,refreshInterval=[oldTimeToLiveInterval])
+@Cacheable(cacheName="propertyCache"
+	,decoratedCacheType= DecoratedCacheType.REFRESHING_SELF_POPULATING_CACHE
+	,refreshInterval=[oldTimeToLiveInterval])
 {% endhighlight %}
 
 and in ehcache.xml change timeToLive to timeToIdle.
@@ -23,7 +25,8 @@ The first one solves the problem mentioned above. The only difference to the sta
 
 {% highlight java %}
 
-@Cacheable(cacheName="propertyCache", decoratedCacheType= DecoratedCacheType.SELF_POPULATING_CACHE)
+@Cacheable(cacheName="propertyCache"
+	,decoratedCacheType= DecoratedCacheType.SELF_POPULATING_CACHE)
     public List<String> getProperties(int id) {
 	//call database
 }
@@ -35,7 +38,8 @@ You can also add selfPopulatingTimeout=1234 to set the time to wait before givin
 I would say this solution is good enough. But, the second annotation provided is a self refreshing cache. all you need to do is to change the above to:
 
 {% highlight java %}
-    @Cacheable(cacheName="propertyCache", decoratedCacheType= DecoratedCacheType.REFRESHING_SELF_POPULATING_CACHE)
+    @Cacheable(cacheName="propertyCache"
+    ,decoratedCacheType= DecoratedCacheType.REFRESHING_SELF_POPULATING_CACHE)
     public List<String> getProperties(int id) {
 	//call database
 }
