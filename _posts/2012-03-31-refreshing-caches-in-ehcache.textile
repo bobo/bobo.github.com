@@ -8,7 +8,7 @@ summary: A decription on how default caches in ehcache work, and how to change t
 To (almost) never have a request hit a cold cache:
 annotate your cached methods with:
 {% highlight java %}
-@Cacheable(cacheName='propertyCache', decoratedCacheType= DecoratedCacheType.REFRESHING_SELF_POPULATING_CACHE,refreshInterval=[oldTimeToLiveInterval])
+@Cacheable(cacheName="propertyCache", decoratedCacheType= DecoratedCacheType.REFRESHING_SELF_POPULATING_CACHE,refreshInterval=[oldTimeToLiveInterval])
 {% endhighlight %}
 and in ehcache.xml change timeToLive to timeToIdle.
 
@@ -20,7 +20,7 @@ Ehcache has a way to change this behaviour called decorators. And <a href="http:
 The first one solves the problem mentioned above. The only difference to the standard cache is that it is blocking. So if 10 calls comes at the same time, it will still just render one call to the database.  To use the blocking cache annotate the method as follows:
 
 {% highlight java %}
-@Cacheable(cacheName='propertyCache', decoratedCacheType= DecoratedCacheType.SELF_POPULATING_CACHE)
+@Cacheable(cacheName="propertyCache", decoratedCacheType= DecoratedCacheType.SELF_POPULATING_CACHE)
     public List<String> getProperties(int id) {
 	//call database
 }
@@ -31,7 +31,7 @@ You can also add selfPopulatingTimeout=1234 to set the time to wait before givin
 I would say this solution is good enough. But, the second annotation provided is a self refreshing cache. all you need to do is to change the above to:
 
 {% highlight java %}
-    @Cacheable(cacheName='propertyCache', decoratedCacheType= DecoratedCacheType.REFRESHING_SELF_POPULATING_CACHE)
+    @Cacheable(cacheName="propertyCache", decoratedCacheType= DecoratedCacheType.REFRESHING_SELF_POPULATING_CACHE)
     public List<String> getProperties(int id) {
 	//call database
 }
