@@ -1,0 +1,44 @@
+---
+layout: post
+title: Refreshing caches in ehcache
+summary: A decription on how default caches in ehcache work, and how to change the behaviour.
+---
+
+<h3>TL;DR</h3>
+To (almost) never have a request hit a cold cache:
+annotate your cached methods with:
+{% highlight java %}
+@Cacheable(cacheName='propertyCache', decoratedCacheType= DecoratedCacheType.REFRESHING_SELF_POPULATING_CACHE,refreshInterval=[oldTimeToLiveInterval])
+{% endhighlight %}
+and in ehcache.xml change timeToLive to timeToIdle.
+
+<h3>The full story</h3>
+Ehcache has several ways to populate its cache. The sandardway is When a request is made and the value isnt in the cache. The cache forwards the request to the method beeing cahed. If you for example have a database call cached the call to the database will be made. This is whats commonly known as a read through cache. There is one thing to note: <i>The method call is not blocking. If a second call to the same method is done before the first call populates the cache. The second call will also forward to the method.</i>
+
+Ehcache has a way to change this behaviour called decorators. And <a href="http://code.google.com/p/ehcache-spring-annotations/">ehcache spring annotations</a> provide some with annotations.
+
+The first one solves the problem mentioned above. The only difference to the standard cache is that it is blocking. So if 10 calls comes at the same time, it will still just render one call to the database.  To use the blocking cache annotate the method as follows:
+
+{% highlight java %}
+@Cacheable(cacheName='propertyCache', decoratedCacheType= DecoratedCacheType.SELF_POPULATING_CACHE)
+    public List<String> getProperties(int id) {
+	//call database
+}
+{% endhighlight %}
+
+You can also add selfPopulatingTimeout=1234 to set the time to wait before giving up and forwarding to the method. 
+
+I would say this solution is good enough. But, the second annotation provided is a self refreshing cache. all you need to do is to change the above to:
+
+{% highlight java %}
+    @Cacheable(cacheName='propertyCache', decoratedCacheType= DecoratedCacheType.REFRESHING_SELF_POPULATING_CACHE)
+    public List<String> getProperties(int id) {
+	//call database
+}
+{% endhighlight %}
+
+you can also specify the interval for the refresh by adding “refreshInterval=1000” to the annotation. I added “refreshInterval=[value i had for timeToLive in ehcache.xml]”, to keep the caches to be updated in the same interval as before the change.
+This will cause ehcache to save the metod calls used when getting a value, and in the background run it again every [refreshInterval] ms. This means your cache will be updated without any http request needing to wait for the slow database call. 
+You probably also want to open up your ehcache.xml and change timeToLiveSeconds to timeToIdleSeconds. Since the cache will be updated anyway, It is probably not a good idea to expire the cache based on when it was first used (the refresh thread wont reset the timeToLive timer). Since if you do,tThe items will still expire and cause them to be removed and that will cause an empty cache hit. Have in mind, that timeToIdle is probably going to be reset alot more then timeToLive. So if you keep it at the same value as you had timeToLive, you will probably end up with more items in the cache, taking up more memory. But that is dependent on how your application is used.
+
+It is worth noting. That if possible, it is even more effective to be sure to always update the caches when changing a value. Then you can set your caches ttl to extremly long times, and never have to call the database at all. But unfortunatly, that is often very hard to accomplish. For one, you most likely need to use something like terracotta to cluster your jvm’s. And to keep track of all chages is most likely a very hard task. It can be made easier if you plan for it from the begining. For me and the application i am working on. We dont realy have a database load problem and can easily let the caches be updated pretty often and just refresh some keys or entire caches when something changes.
