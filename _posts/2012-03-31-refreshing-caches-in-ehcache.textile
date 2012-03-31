@@ -29,7 +29,7 @@ The first one solves the problem mentioned above. The only difference to the sta
 	,decoratedCacheType= DecoratedCacheType.SELF_POPULATING_CACHE)
     public List<String> getProperties(int id) {
 	//call database
-}
+	}
 
 {% endhighlight %}
 
@@ -42,7 +42,7 @@ I would say this solution is good enough. But, the second annotation provided is
     ,decoratedCacheType= DecoratedCacheType.REFRESHING_SELF_POPULATING_CACHE)
     public List<String> getProperties(int id) {
 	//call database
-}
+	}
 {% endhighlight %}
 
 you can also specify the interval for the refresh by adding “refreshInterval=1000” to the annotation. I added “refreshInterval=[value i had for timeToLive in ehcache.xml]”, to keep the caches to be updated in the same interval as before the change.
