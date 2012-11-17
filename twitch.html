@@ -1,0 +1,101 @@
+<html>
+<head>
+	<title></title>
+	<link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+	<script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+	<style>
+	body {
+		background: black;
+	}
+	.focus {padding-left: 20px;
+	}
+	#main {
+		padding-left: 20px;
+	}
+	</style>
+</head>
+<body>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span3">
+
+<div id="sc2" class="row preview">
+
+	<div class="span1 focus">
+		<a href="#">S</br>C</br>2</a>
+	</div>
+	<div class="span11">		
+		<object type="application/x-shockwave-flash" height="284" width="480" id="live_embed_player_flash" data="http://www.twitch.tv/widgets/live_embed_player.swf?channel=sc2" bgcolor="#000000"><param name="allowFullScreen" value="true" /><param name="allowScriptAccess" value="always" /><param name="allowNetworking" value="all" /><param name="movie" value="http://www.twitch.tv/widgets/live_embed_player.swf" /><param name="flashvars" value="hostname=www.twitch.tv&channel=sc2&auto_play=true&start_volume=25" /></object><a href="http://www.twitch.tv/sc2" class="trk" style="padding:2px 0px 4px; display:block; width:345px; font-weight:normal; font-size:10px; text-decoration:underline; text-align:center;">Watch live video from blizzardgames1 on www.twitch.tv</a>
+	</div>
+</div>
+
+<div id="sc2_2" class="row preview">
+<div class="span1 focus">
+		<a href="#">S</br>C</br>2</br> </br>2</a>
+	</div>
+	<div class="span11">	
+<object class="copyme" type="application/x-shockwave-flash" height="284" width="480" id="live_embed_player_flash" data="http://www.twitch.tv/widgets/live_embed_player.swf?channel=sc2_2" bgcolor="#000000"><param name="allowFullScreen" value="true" /><param name="allowScriptAccess" value="always" /><param name="allowNetworking" value="all" /><param name="movie" value="http://www.twitch.tv/widgets/live_embed_player.swf" /><param name="flashvars" value="hostname=www.twitch.tv&channel=sc2_2&auto_play=true&start_volume=25" /></object><a href="http://www.twitch.tv/sc2_2" class="trk" style="padding:2px 0px 4px; display:block; width:345px; font-weight:normal; font-size:10px; text-decoration:underline; text-align:center;">Watch live video from blizzardgames2 on www.twitch.tv</a>
+</div>
+</div>
+<div id="sc2_3" class="row preview">
+<div class="span1 focus">
+		<a href="#">S</br>C</br>2</br> </br>3</a>
+	</div>
+	<div class="span11">	
+<object  class="copyme"  type="application/x-shockwave-flash" height="284" width="480" id="live_embed_player_flash" data="http://www.twitch.tv/widgets/live_embed_player.swf?channel=sc2_3" bgcolor="#000000"><param name="allowFullScreen" value="true" /><param name="allowScriptAccess" value="always" /><param name="allowNetworking" value="all" /><param name="movie" value="http://www.twitch.tv/widgets/live_embed_player.swf" /><param name="flashvars" value="hostname=www.twitch.tv&channel=sc2_3&auto_play=true&start_volume=25" /></object><a href="http://www.twitch.tv/sc2_3" class="trk" style="padding:2px 0px 4px; display:block; width:345px; font-weight:normal; font-size:10px; text-decoration:underline; text-align:center;">Watch live video from blizzardgames3 on www.twitch.tv</a>
+</div>
+</div>
+
+<div id="sc2_4" class="row preview">
+<div class="span1 focus">
+		<a href="#">S</br>C</br>2</br></br>4</a>
+	</div>
+	<div class="span11">	
+		<object  class="copyme"  type="application/x-shockwave-flash" height="284" width="480" id="live_embed_player_flash" data="http://www.twitch.tv/widgets/live_embed_player.swf?channel=sc2_4" bgcolor="#000000"><param name="allowFullScreen" value="true" /><param name="allowScriptAccess" value="always" /><param name="allowNetworking" value="all" /><param name="movie" value="http://www.twitch.tv/widgets/live_embed_player.swf" /><param name="flashvars" value="hostname=www.twitch.tv&channel=sc2_4&auto_play=true&start_volume=25" /></object><a href="http://www.twitch.tv/sc2_4" class="trk" style="padding:2px 0px 4px; display:block; width:345px; font-weight:normal; font-size:10px; text-decoration:underline; text-align:center;">Watch live video from blizzardgames4 on www.twitch.tv</a>
+	</div>
+</div>
+
+    </div>
+    <div id="main" class="span9">
+      
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+
+$('a').click(function() {
+	
+	$('.preview').show();
+
+	var objTag = $(this).parent().next().children().first().clone();
+	objTag.attr('height',756);
+	objTag.attr('width',1280);
+	console.log(objTag);
+	$('#main').html(objTag);
+	 $(this).parent().parent().hide();
+})
+
+</script>
+
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36402292-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>
